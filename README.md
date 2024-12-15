@@ -1,2 +1,6 @@
 # office2md
-easily convert documents to markdown
+
+A simple app for my homelab.
+Useful for reorganizing everything under **Obsidian** and taking back control over years of documents (not made by me .___.).
+
+Here just for fun.

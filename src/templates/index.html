@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Converter</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Markdown Converter</h1>
+            <p class="lead">Upload a file and convert it to Markdown!</p>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Choose a file</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".docx,.xlsx,.pptx,.pdf,.txt,.csv,.json,.xml,.html,.jpg,.jpeg,.png,.mp3,.wav" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Upload and Convert</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Markdown Output</h2>
+                <div>
+                    <button id="copyButton" class="btn btn-secondary me-2">Copy to Clipboard</button>
+                    <button id="downloadButton" class="btn btn-success">Download</button>
+                </div>
+            </div>
+            <textarea id="markdownOutput" class="form-control mt-3" rows="20" readonly>{{ markdown_content }}</textarea>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const markdownOutput = document.getElementById("markdownOutput");
+            const copyButton = document.getElementById("copyButton");
+            const downloadButton = document.getElementById("downloadButton");
+
+            // Copy to Clipboard
+            copyButton.addEventListener("click", function() {
+                navigator.clipboard.writeText(markdownOutput.value).then(() => {
+                    alert("Content copied to clipboard!");
+                }).catch(err => {
+                    alert("Failed to copy content: " + err);
+                });
+            });
+
+            // Download as .md file
+            downloadButton.addEventListener("click", function() {
+                const blob = new Blob([markdownOutput.value], { type: "text/markdown" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "output.md";
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+</html>
